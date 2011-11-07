@@ -64,9 +64,9 @@ module Lokka
           @photo = Picasa::Photo.new
           @photo.title = params['title']
           @photo.description = params['description']
-          flash[:notice] = t.picasa_failed_to_upload
+          flash[:notice] = t(:picasa_failed_to_upload)
         else
-          flash[:notice] = t.picasa_file_was_successfully_uploaded
+          flash[:notice] = t(:picasa_file_was_successfully_uploaded)
           redirect '/admin/plugins/picasa/upload_files'
         end
         haml :'plugin/lokka-picasa_files/views/new', :layout => :'admin/layout'
@@ -87,20 +87,20 @@ module Lokka
           @photo.type = params[:file][:type]
         end
         if @photo.update(image_data)
-          flash[:notice] = t.picasa_file_was_successfully_updated
+          flash[:notice] = t(:picasa_file_was_successfully_updated)
           redirect '/admin/plugins/picasa/upload_files'
         else
-          flash[:notice] = t.picasa_failed_to_update
+          flash[:notice] = t(:picasa_failed_to_update)
         end
         haml :'plugin/lokka-picasa_files/views/edit', :layout => :'admin/layout'
       end
 
       app.delete '/admin/plugins/picasa/upload_files/:photo_id/:album_id' do |photo_id, album_id|
         photo = @@picasa.load_photo_with_id(photo_id, album_id)
-        flash[:notice] = t.picasa_failed_to_delete
+        flash[:notice] = t(:picasa_failed_to_delete)
         unless photo.nil?
           if @@picasa.delete_photo(photo)
-            flash[:notice] = t.picasa_file_was_successfully_deleted
+            flash[:notice] = t(:picasa_file_was_successfully_deleted)
           end
         end
         redirect '/admin/plugins/picasa/upload_files'
@@ -127,9 +127,9 @@ module Lokka
         email = params['picasa_email']
         password = params['picasa_password']
         if @@picasa.login(email, password).nil?
-          flash[:notice] = t.picasa_failed_to_update
+          flash[:notice] = t(:picasa_failed_to_update)
         else
-          flash[:notice] = t.picasa_updated
+          flash[:notice] = t(:picasa_updated)
           Option.picasa_email = email
           Option.picasa_password = password
           Option.picasa_album = params['picasa_album'].blank? ? 'Lokka' : params['picasa_album']
